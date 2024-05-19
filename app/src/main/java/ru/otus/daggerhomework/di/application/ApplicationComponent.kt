@@ -1,9 +1,9 @@
-package ru.otus.daggerhomework
+package ru.otus.daggerhomework.di.application
 
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import ru.otus.daggerhomework.annotation.Application
+import ru.otus.daggerhomework.di.annotation.qualifier.Application
 import javax.inject.Singleton
 
 @Singleton

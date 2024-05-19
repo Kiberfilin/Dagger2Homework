@@ -1,6 +1,7 @@
 package ru.otus.daggerhomework
 
 import android.app.Application
+import ru.otus.daggerhomework.di.application.ApplicationComponent
 
 class App : Application() {
     var applicationComponent: ApplicationComponent? = null
