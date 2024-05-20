@@ -27,8 +27,4 @@ class MainActivity : AppCompatActivity() {
             .add(R.id.containerForReceiver, FragmentReceiver())
             .commit()
     }
-
-    override fun onStart() {
-        super.onStart()
-    }
 }
