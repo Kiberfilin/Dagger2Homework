@@ -13,7 +13,9 @@ import javax.inject.Inject
 class FragmentProducer : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: ViewModelProducer
+    private lateinit var viewModel: ProducerViewModel
+    @Inject
+    lateinit var viewModelProducer: ViewModelProducer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +34,10 @@ class FragmentProducer : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelFactory)[ViewModelProducer::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[ProducerViewModel::class.java]
         view.findViewById<Button>(R.id.button).setOnClickListener {
             //отправить результат через livedata в другой фрагмент
-            viewModel.generateColor()
+            viewModel.onButtonClick(viewModelProducer)
         }
     }
 }

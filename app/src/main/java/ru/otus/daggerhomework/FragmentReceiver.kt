@@ -16,7 +16,9 @@ class FragmentReceiver : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: ViewModelReceiver
+    private lateinit var viewModel: ReceiverViewModel
+    @Inject
+    lateinit var viewModelReceiver: ViewModelReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +38,8 @@ class FragmentReceiver : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         frame = view.findViewById(R.id.frame)
-        viewModel = ViewModelProvider(this, viewModelFactory)[ViewModelReceiver::class.java]
-        viewModel.observeColors { color: Int -> populateColor(color) }
+        viewModel = ViewModelProvider(this, viewModelFactory)[ReceiverViewModel::class.java]
+        viewModel.observeColors(viewModelReceiver) { color: Int -> populateColor(color) }
     }
 
     private fun populateColor(@ColorInt color: Int) {
