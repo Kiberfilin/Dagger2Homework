@@ -3,7 +3,6 @@ package ru.otus.daggerhomework
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import ru.otus.daggerhomework.di.mainactivity.MainActivityComponent
 
 class MainActivity : AppCompatActivity() {
@@ -14,7 +13,6 @@ class MainActivity : AppCompatActivity() {
         get() = field ?: MainActivityComponent.createMainActivityComponent(
             this,
             colorEmitter,
-            colorEmitter.asSharedFlow(),
             (application as App).applicationComponent!!
         ).also { field = it }
 

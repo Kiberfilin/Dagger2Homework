@@ -11,7 +11,10 @@ import ru.otus.daggerhomework.di.annotation.scope.ActivityScope
 import ru.otus.daggerhomework.di.application.ApplicationComponent
 
 @ActivityScope
-@Component(dependencies = [ApplicationComponent::class])
+@Component(
+    dependencies = [ApplicationComponent::class],
+    modules = [MainActivityModule::class]
+)
 interface MainActivityComponent {
     @Activity
     fun provideActivityContext(): Context
@@ -25,8 +28,7 @@ interface MainActivityComponent {
     interface Factory {
         fun create(
             @BindsInstance @Activity activityContext: Context,
-            @BindsInstance producerFlow: MutableSharedFlow<Int>,
-            @BindsInstance receiverFlow: SharedFlow<Int>,
+            mainActivityModule: MainActivityModule,
             applicationComponent: ApplicationComponent
         ): MainActivityComponent
     }
@@ -34,11 +36,10 @@ interface MainActivityComponent {
     companion object {
         fun createMainActivityComponent(
             context: Context,
-            producerFlow: MutableSharedFlow<Int>,
-            receiverFlow: SharedFlow<Int>,
+            flow: MutableSharedFlow<Int>,
             applicationComponent: ApplicationComponent
         ): MainActivityComponent =
             DaggerMainActivityComponent.factory()
-                .create(context, producerFlow, receiverFlow, applicationComponent)
+                .create(context, MainActivityModule(flow), applicationComponent)
     }
 }
