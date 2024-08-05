@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import ru.otus.daggerhomework.di.fragments.receiver.FragmentReceiverComponent
 import javax.inject.Inject
 
@@ -14,9 +15,6 @@ class FragmentReceiver : Fragment() {
 
     private lateinit var frame: View
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: ReceiverViewModel
     @Inject
     lateinit var viewModelReceiver: ViewModelReceiver
 
@@ -38,8 +36,11 @@ class FragmentReceiver : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         frame = view.findViewById(R.id.frame)
-        viewModel = ViewModelProvider(this, viewModelFactory)[ReceiverViewModel::class.java]
-        viewModel.observeColors(viewModelReceiver) { color: Int -> populateColor(color) }
+        lifecycleScope.launch {
+            viewModelReceiver.observeColors {
+                populateColor(it)
+            }
+        }
     }
 
     private fun populateColor(@ColorInt color: Int) {
